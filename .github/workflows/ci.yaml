@@ -44,7 +44,7 @@ jobs:
       - name: test
         working-directory: ./hangman-api
         run: |
-          ls -la
+          ls -la node_modules/
           npm test
   # audit:
   #   runs-on: ubuntu-latest
