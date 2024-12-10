@@ -56,4 +56,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Integration test
-        run: docker compose -f ./hangman-api/test-integration.yaml up --force-recreate --exit-code-from build-db-relationships
+        working-directory: ./hangman-api
+        run: docker compose -f test-integration.yaml up --force-recreate --exit-code-from build-db-relationships
