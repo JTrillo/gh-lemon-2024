@@ -17,6 +17,8 @@ jobs:
         os: [ubuntu-22.04, ubuntu-24.04]
 
     steps:
+      - name: Audit
+        run: java --version
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Node.js version
