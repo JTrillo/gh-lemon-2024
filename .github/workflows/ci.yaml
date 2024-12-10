@@ -40,11 +40,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dependencies
-          path: hangman-api/node_modules/
+          path: hangman-api/node_modules_2/
       - name: test
         working-directory: ./hangman-api
         run: |
-          ls -la node_modules/
+          npm ci
           npm test
   # audit:
   #   runs-on: ubuntu-latest
