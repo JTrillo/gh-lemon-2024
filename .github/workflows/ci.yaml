@@ -15,20 +15,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # - name: Setup Node.js version
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
+      - name: Setup Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: hangman-api/package-lock.json
       - name: build
         working-directory: ./hangman-api
         run: |
           npm ci
           npm run build --if-present
-      - name: Upload Artifact (dependencies)
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependencies
-          path: hangman-api/node_modules/
+      # - name: Upload Artifact (dependencies)
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: dependencies
+      #     path: hangman-api/node_modules/
 
   test:
     runs-on: ubuntu-latest
@@ -36,11 +38,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Download Artifact (dependecies)
-        uses: actions/download-artifact@v4
+      - name: Setup Node.js version
+        uses: actions/setup-node@v4
         with:
-          name: dependencies
-          path: hangman-api/node_modules_2/
+          node-version: 20
+      # - name: Download Artifact (dependecies)
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: dependencies
+      #     path: hangman-api/node_modules_2/
       - name: test
         working-directory: ./hangman-api
         run: |
