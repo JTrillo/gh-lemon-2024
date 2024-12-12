@@ -11,7 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,16 +20,11 @@ jobs:
           node-version: 16
           cache: "npm"
           cache-dependency-path: hangman-api/package-lock.json
-      - name: build
+      - name: Build
         working-directory: ./hangman-api
         run: |
           npm ci
           npm run build --if-present
-      # - name: Upload Artifact (dependencies)
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: dependencies
-      #     path: hangman-api/node_modules/
 
   test:
     runs-on: ubuntu-latest
@@ -42,19 +36,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 16
-      # - name: Download Artifact (dependecies)
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: dependencies
-      #     path: hangman-api/node_modules_2/
       - name: test
         working-directory: ./hangman-api
         run: |
           npm ci
           npm test
+
   integration-tests:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Integration test
         working-directory: ./hangman-api
         run: docker compose -f test-integration.yaml up --force-recreate --exit-code-from build-db-relationships
