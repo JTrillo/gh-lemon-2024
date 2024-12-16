@@ -66,7 +66,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 16
-      - name: Create database relationship
+      - name: Integration test
         working-directory: ./hangman-api
         env:
           DATABASE_PORT: 5432
@@ -79,6 +79,7 @@ jobs:
         run: |
           npm ci
           npx knex migrate:latest --env development
+          npm run test:integration
       # - name: Integration test
       #   working-directory: ./hangman-api
       #   run: docker compose -f test-integration.yaml up --force-recreate --exit-code-from build-db-relationships
