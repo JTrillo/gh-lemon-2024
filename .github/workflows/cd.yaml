@@ -41,6 +41,14 @@ jobs:
         with:
           name: build-code
           path: hangman-api/dist/
-      - name: Build Docker image
+      - name: Build and push Docker image
         working-directory: ./hangman-api
-        run: docker build -t hangman-api-2024:$(date +%s) -f Dockerfile.workflow .
+        env:
+          DOCKER_USER: "jtrillo"
+          DOCKER_REPOSITORY: "hangman-api-2024"
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSSWORD }}
+        run: |
+          echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
+          image=$DOCKER_USER/$DOCKER_REPOSITORY:$(date +%s)
+          docker build -t $image -f Dockerfile.workflow .
+          docker push $image
