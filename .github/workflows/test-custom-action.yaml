@@ -8,12 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        commodity: ["gold", "SILVER", "wood"]
-        currency: ["USD", "eur", "EURO"]
+        commodity: ["gold", "SILVER"]
+        currency: ["USD", "eur"]
 
     steps:
       - name: Get commodity price
+        id: commodity_price
         uses: jtrillo/get-commodity-price-action@v1.0.0
         with:
           commodity: ${{ matrix.commodity }}
           currency: ${{ matrix.currency }}
+      - name: Get output price
+        run: echo "Price per ounce is ${{ steps.commodity_price.outputs.price }} ${{ matrix.currency }}"
